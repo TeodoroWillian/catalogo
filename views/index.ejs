@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css">
+    <title>Catálogo Filmes</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+          <article>
+              <img src="img/Harry.jpg" alt="">
+              <h1>Harry Potter</h1>
+          </article>
+        <ul>
+          <li>
+            <a href="#cadastro">Cadastro</a>
+          </li>
+          <li><a href="#cards">Filmes</a></li>
+        </ul>
+      </nav>
+      <% if(mensagem != ""){ %>
+        <section id="mensagem">
+          <p><%=mensagem%></p>
+          <span id="close">&times;</span>
+        </section>
+        <% } %>
+    </header>
+
+    <main>
+        <section id="cadastro">
+
+          <div>
+            <% if (filmes==undefined) { %>
+            <h2>Cadastre um Filme</h2>
+            <form action="/create" method="POST">
+              <label for="nome">Nome: </label>
+              <input type="text" name="nome" id="nome" required />
+              <label for="ano">Ano Lançamento: </label>
+              <input type="text" name="ano" id="ano" required />
+              <label for="imagem">Imagem: </label>
+              <input type="text" name="imagem" id="imagem" required />
+              <button id="btnCadastrar" type="submit">Cadastrar</button>
+            </form>
+            <% } else { %>
+           <h2>Atualização do filme</h2>
+          <form action="/update/<%= filmes.id %>" method="POST">
+            <label for="nome">Nome:</label>
+            <input
+              type="text"
+              id="nome"
+              name="nome"
+              value="<%= filmes.nome %>"
+            />
+            <label for="ano">Ano:</label>
+            <input
+              type="text"
+              id="ano"
+              name="ano"
+              value="<%= filmes.ano%>"
+            />
+            <label for="imagem">Imagem: </label>
+            <input
+              type="text"
+              id="imagem"
+              name="imagem"
+              value="<%= filmes.imagem %>"
+            />
+            <button id="btnAtualizar" type="submit">Atualizar</button>
+          </form>
+          <% } %>
+        </div>
+      </section>
+
+      <section id="cards">
+        <h2 id="lista">Lista de Filmes</h2>
+
+        <% listaFilmes.forEach((filmes)=> { %>
+        <div class="card">
+          <img src="<%= filmes.imagem %>" alt="" />
+          <h3><%= filmes.nome %></h3>
+          <p class="nome"><%= filmes.nome %></p>
+          <p>Ano: <%= filmes.ano %></p>
+          <a id="editar" href="/detalhes/<%= filmes.id %>">Editar</a>
+          <a id="apagar" href="/delete/<%= filmes.id %>">Apagar</a>
+        </div>
+        <% }) %>
+      </section>
+    </main>
+
+    </main>
+  </body>
+</html>
